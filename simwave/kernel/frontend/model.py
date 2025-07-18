@@ -171,41 +171,6 @@ class SpaceModel:
         except AttributeError:
             return ('none',) * self.dimension * 2
 
-    @property
-    def damping_polynomial_degree(self):
-        """Degree of the polynomial in the extension function."""
-        # if boundary is not configured, damping_polynomial_degree is 1
-        try:
-            return self._damping_polynomial_degree
-        except AttributeError:
-            return 3
-
-    @property
-    def damping_alpha(self):
-        """Constant parameter of the extension function."""
-        # if boundary is not configured, damping_alpha is 0.0001
-        try:
-            return self._damping_alpha
-        except AttributeError:
-            if self.dimension == 2:
-                # 2 dimension
-                z_min, z_max, x_min, x_max = self.bounding_box
-                z_top_damp, z_bottom_damp, x_left_damp, x_right_damp = self.damping_length
-                nz = z_max - z_min + z_top_damp + z_bottom_damp
-                nx = x_max - x_min + x_left_damp + x_right_damp
-                # get the maximum domain length in one of 2 dimensions (meters)
-                max_length = max(nz, nx)
-            else:
-                # 3 dimension
-                z_min, z_max, x_min, x_max, y_min, y_max = self.bounding_box
-                z_top_damp, z_bottom_damp, x_left_damp, x_right_damp, y_front_damp, y_back_damp = self.damping_length
-                nz = z_max - z_min + z_top_damp + z_bottom_damp
-                nx = x_max - x_min + x_left_damp + x_right_damp
-                ny = y_max - y_min + y_front_damp + y_back_damp
-                # get the maximum domain length in one of 3 dimensions (meters)
-                max_length = max(nz, nx, ny)
-            return np.log(1/10 ** -3) * (self.dimension * np.max(self.velocity_model) / (2 * max_length) ) / max_length ** 2
-
     def fd_coefficients(self, derivative_order):
         """
         Central and right side finite differences coefficients.
@@ -285,8 +250,7 @@ class SpaceModel:
         space_order_radius = self.space_order // 2
         return (space_order_radius, ) * self.dimension * 2
 
-    def config_boundary(self, damping_length=0.0, boundary_condition="none",
-                        damping_polynomial_degree=2, damping_alpha=None):
+    def config_boundary(self, damping_length=0.0, boundary_condition="none"):
         """
         Applies the domain extension (for absorbing layers with damping)
         and boundary conditions.
@@ -304,17 +268,7 @@ class SpaceModel:
             Str is a shortcut for before = after width for all axes.
             Options: none, null_dirichlet, null_neumann.
             Default is N (no boundaray condition).
-        damping_polynomial_degree : int, optional
-            Degree of the polynomial in the extension function.
-            Default is 1 (linear).
-        alpha : float, optional
-            Constant parameter of the extension function.
-            Default is 0.0001.
         """
-
-        self._damping_polynomial_degree = damping_polynomial_degree
-        if damping_alpha is not None: 
-            self._damping_alpha = damping_alpha
 
         # if it is not, convert damping_length to tuple
         if isinstance(damping_length, (float, int)):
@@ -402,7 +356,7 @@ class SpaceModel:
         """
         # damp mask in the original domain
         damp_mask = np.zeros(self.shape, dtype=self.dtype)
-
+        
         # damp mask in the damping extention
         # use the perpendicular distance from the point to
         # the boundary between original and extended domain
@@ -412,13 +366,12 @@ class SpaceModel:
             mode="linear_ramp",
             end_values=self.nbl_pad_width
         )
-        # change the damping values (coefficients) according to a function
-        degree = self.damping_polynomial_degree
-        damp_mask = (damp_mask ** degree) * self.damping_alpha
-        # damp mask in the halo region
-        # The values in this extended region is zero
-        damp_mask = np.pad(array=damp_mask, pad_width=self.halo_pad_width)
 
+        delta = max(self.damping_length)
+        temp_spacing = np.max(self.grid_spacing)
+        damp_mask = ( 3 * np.max(self.velocity_model) / (2 * delta ) ) * np.log10(1/10 ** -3) * (( damp_mask * temp_spacing / delta ) ** 2)
+        
+        damp_mask = np.pad(array=damp_mask, mode="edge", pad_width=self.halo_pad_width)
         return damp_mask
 
     @property

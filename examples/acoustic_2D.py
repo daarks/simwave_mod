@@ -45,10 +45,11 @@ compiler = Compiler(
 )
 
 # Velocity model
+#vel = np.zeros(shape=(512, 512), dtype=np.float32)
 vel = np.zeros(shape=(512, 512), dtype=np.float32)
 vel[:] = 1500.0
-vel[100:] = 2000.0
-
+#vel[100:] = 2000.0
+#vel[1,1]=4500
 # create the space model
 space_model = SpaceModel(
     bounding_box=(0, 5120, 0, 5120),
@@ -61,14 +62,13 @@ space_model = SpaceModel(
 # config boundary conditions
 # (none,  null_dirichlet or null_neumann)
 space_model.config_boundary(
-    damping_length=(0, 510, 510, 510),
+        damping_length=(510, 510, 510, 510),
     boundary_condition=(
-        "null_neumann", "null_dirichlet",
+        "null_dirichlet", "null_dirichlet",
         "null_dirichlet", "null_dirichlet"
     )
 )
 
-print(' damping_alpha=',space_model.damping_alpha)
 
 # create the time model
 time_model = TimeModel(
