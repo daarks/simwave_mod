@@ -84,19 +84,17 @@ space_model = SpaceModel(
 # config boundary conditions
 # (none,  null_dirichlet or null_neumann)
 space_model.config_boundary(
-    damping_length=0,
+    damping_length=(0,510, 510, 510),
     boundary_condition=(
         "null_neumann", "null_dirichlet",
         "none", "null_dirichlet"
-    ),
-    damping_polynomial_degree=3,
-    damping_alpha=0.001
+    )
 )
 
 # create the time model
 time_model = TimeModel(
     space_model=space_model,
-    tf=1.0,
+    tf=2.3,
     saving_stride=0
 )
 
