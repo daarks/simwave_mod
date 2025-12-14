@@ -1,0 +1,119 @@
+[0;34m>> python miniwave.py --language cuda --file kernels/cuda_temporal.cu --grid_size 128 --num_timesteps 1000 --block_size_1 8 --block_size_2 8 --block_size_3 8 --sm 86 --dtype float32[0m
+CMakeLists.txt
+data
+miniwave.c
+selected_kernel.h.in
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- The CUDA compiler identification is NVIDIA 12.0.140
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Using kernel: kernels/cuda_temporal.cu
+-- Found HDF5: hdf5::hdf5-shared (found version "1.14.3") found components: C 
+-- Configuring done (3.1s)
+-- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    KERNEL_HEADER
+
+
+-- Build files have been written to: /home/gabe/simwave/miniwave/c-frontend/build
+[ 25%] Building CUDA object CMakeFiles/miniwave.dir/home/gabe/simwave/miniwave/kernels/cuda_temporal.cu.o
+[ 50%] Building C object CMakeFiles/miniwave.dir/miniwave.c.o
+[ 75%] Linking CUDA device code CMakeFiles/miniwave.dir/cmake_device_link.o
+nvlink warning : Skipping incompatible '/usr/lib/x86_64-linux-gnu/libdl.a' when searching for -ldl
+nvlink warning : Skipping incompatible '/usr/lib/x86_64-linux-gnu/librt.a' when searching for -lrt
+nvlink warning : Skipping incompatible '/usr/lib/x86_64-linux-gnu/libpthread.a' when searching for -lpthread
+[100%] Linking CUDA executable miniwave
+[100%] Built target miniwave
+
+╔════════════════════════════════════════════════════════════╗
+║           MINIWAVE - 3D ACOUSTIC WAVE SIMULATOR            ║
+╚════════════════════════════════════════════════════════════╝
+
+📐 GRID CONFIGURATION:
+   Dimensions: 128 x 128 x 128 = 2097152 points
+   Spacing: 10.0 x 10.0 x 10.0 meters
+   Physical size: 1280 x 1280 x 1280 meters
+
+⏱️  TIME CONFIGURATION:
+   Timesteps: 1000
+   Time step (dt): 0.002000 seconds
+   Total simulated time: 2.000000 seconds
+
+🔢 NUMERICAL METHOD:
+   Stencil radius: 1 (space order: 2)
+   FD coefficients: [-2.000, 1.000]
+
+🖥️  GPU CONFIGURATION:
+   Block size: 8 x 8 x 8 threads
+
+=== INITIAL WAVEFIELD ===
+Min: 0.000000 | Max: 50.000000 | Sum: 24199.60 | Mean: 0.011539
+Active elements (|u| > 0.01): 512 / 2097152 (0.02% of grid)
+
+=== INITIAL STATE - CENTRAL CROSS-SECTION (y=64 plane) ===
+Line from center: [z=64, y=64, x=0:31]
+  0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 
+  0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 
+  0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 
+  0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 
+
+╔════════════════════════════════════════════════════════════╗
+║                    RUNNING SIMULATION...                   ║
+╚════════════════════════════════════════════════════════════╝
+
+╔════════════════════════════════════════════════════════════╗
+║                  SIMULATION COMPLETED! ✓                   ║
+╚════════════════════════════════════════════════════════════╝
+
+=== FINAL WAVEFIELD ===
+Min: -6681441177960448.000000 | Max: 5703572687683584.000000 | Sum: -10267526386202872.00 | Mean: -4895938103.772579
+Active elements (|u| > 0.01): 890095 / 2097152 (42.44% of grid)
+
+=== FINAL STATE - CENTRAL CROSS-SECTION (y=64 plane) ===
+Line from center: [z=64, y=64, x=0:31]
+  0.000   0.000   0.000  -0.000  -0.000   0.000  -0.000   0.000 
+  0.000  -0.000  -0.000  -0.000  -0.000   0.000   0.000  -0.000 
+ -0.000   1.742   1.743   1.314   0.021  -0.124  -0.173  -1.118 
+ -1.904  -2.439  -8.505  -0.617  10.279   5.702 -15.745  -7.853 
+
+🎯 CENTER POINT [64,64,64]:
+   Before: 26.798437 → After: 26.798437 (change: +0.000000)
+
+⏱️  PERFORMANCE:
+   Execution time: 0.358710 seconds
+   Points computed: 2097152000
+   Throughput: 5846.37 million points/second
+
+💾 Results saved to: c-frontend/data/results.h5
+
+Compilation command: nvcc -O3 -gencode arch=compute_86,code=sm_86 --compiler-options -fPIC,-Wall  -shared -DBLOCK1=8 -DBLOCK2=8 -DBLOCK3=8 -DSTENCIL_RADIUS=1 -DFLOAT -o /tmp/miniwave/81f0a9ff538d0f5931c66b90e3f6c6607acc5e88.so kernels/cuda_temporal.cu
+----------
+Language:  cuda
+File:  kernels/cuda_temporal.cu
+Dtype: <class 'numpy.float32'> (float32)
+Grid size:  (128, 128, 128)
+Grid spacing:  (np.float32(10.0), np.float32(10.0), np.float32(10.0))
+Space order:  2
+-DSTENCIL_RADIUS:  1
+Iterations:  1000
+Block sizes:  (8, 8, 8)
+SM:  86
+Fast Math:  False
+----------
+Execution time: 0.35871 seconds

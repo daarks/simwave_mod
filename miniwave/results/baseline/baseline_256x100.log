@@ -1,0 +1,79 @@
+[0;34m>> python miniwave.py --language cuda --file kernels/cuda_baseline.cu --grid_size 256 --num_timesteps 100 --block_size_1 8 --block_size_2 8 --block_size_3 8 --sm 86 --dtype float32[0m
+CMakeLists.txt
+data
+miniwave.c
+selected_kernel.h.in
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- The CUDA compiler identification is NVIDIA 12.0.140
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Using kernel: kernels/cuda_baseline.cu
+-- Found HDF5: hdf5::hdf5-shared (found version "1.14.3") found components: C 
+-- Configuring done (3.4s)
+-- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    KERNEL_HEADER
+
+
+-- Build files have been written to: /home/gabe/simwave/miniwave/c-frontend/build
+[ 25%] Building CUDA object CMakeFiles/miniwave.dir/home/gabe/simwave/miniwave/kernels/cuda_baseline.cu.o
+[ 50%] Building C object CMakeFiles/miniwave.dir/miniwave.c.o
+[ 75%] Linking CUDA device code CMakeFiles/miniwave.dir/cmake_device_link.o
+nvlink warning : Skipping incompatible '/usr/lib/x86_64-linux-gnu/libdl.a' when searching for -ldl
+nvlink warning : Skipping incompatible '/usr/lib/x86_64-linux-gnu/librt.a' when searching for -lrt
+nvlink warning : Skipping incompatible '/usr/lib/x86_64-linux-gnu/libpthread.a' when searching for -lpthread
+[100%] Linking CUDA executable miniwave
+[100%] Built target miniwave
+vel_model[0:50]:
+1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 
+next_u[0:50]:
+0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 
+prev_u[0:50]:
+0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 
+coefficient:
+-2.000000 1.000000 
+block_size_1: 8.000000
+block_size_2: 8.000000
+block_size_3: 8.000000
+d1: 10.000000
+d2: 10.000000
+d3: 10.000000
+dt: 0.002000
+iterations: 100.000000
+n1: 256.000000
+n2: 256.000000
+n3: 256.000000
+stencil_radius: 1.000000
+
+prev_u[0:50]0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 
+Compilation command: nvcc -O3 -gencode arch=compute_86,code=sm_86 --compiler-options -fPIC,-Wall  -shared -DBLOCK1=8 -DBLOCK2=8 -DBLOCK3=8 -DSTENCIL_RADIUS=1 -DFLOAT -o /tmp/miniwave/824b63b20aa6c72c35c46893c51ce7fedc784dd0.so kernels/cuda_baseline.cu
+----------
+Language:  cuda
+File:  kernels/cuda_baseline.cu
+Dtype: <class 'numpy.float32'> (float32)
+Grid size:  (256, 256, 256)
+Grid spacing:  (np.float32(10.0), np.float32(10.0), np.float32(10.0))
+Space order:  2
+-DSTENCIL_RADIUS:  1
+Iterations:  100
+Block sizes:  (8, 8, 8)
+SM:  86
+Fast Math:  False
+----------
+Execution time: 0.716009 seconds

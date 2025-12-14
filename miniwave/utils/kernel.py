@@ -138,6 +138,10 @@ class Kernel:
     def read_data_from_hdf5(self, filename):
         with h5py.File(filename, "r") as file:
             exec_time = file["/execution_time"][()]
+            # Converte para escalar se for array numpy
+            if isinstance(exec_time, np.ndarray):
+                exec_time = exec_time.item()
+            exec_time = float(exec_time)
             vector = file["/vector"][:]
         return exec_time, vector
 
@@ -249,4 +253,4 @@ class Kernel:
             "./c-frontend/data/results.h5"
         )
 
-        return exec_time[0], next_u
+        return exec_time, next_u

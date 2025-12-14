@@ -1,6 +1,6 @@
 #ifndef SELECTED_KERNEL_H
 #define SELECTED_KERNEL_H
 
-#include "../@KERNEL_HEADER@"
+#include "sequential.h"
 
-#endif // SELECTED_KERNEL_H
+#endif

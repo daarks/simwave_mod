@@ -1,0 +1,70 @@
+[0;34m>> python miniwave.py --language c --file kernels/sequential.c --grid_size 64 --num_timesteps 10 --block_size_1 8 --block_size_2 8 --block_size_3 8[0m
+CMakeLists.txt
+data
+miniwave.c
+selected_kernel.h.in
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Using kernel: kernels/sequential.c
+-- Found HDF5: hdf5::hdf5-shared (found version "1.14.3") found components: C 
+-- Configuring done (0.8s)
+-- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CUDA_ARCHITECTURE
+    KERNEL_HEADER
+
+
+-- Build files have been written to: /home/gabe/simwave/miniwave/c-frontend/build
+[ 33%] Building C object CMakeFiles/miniwave.dir/home/gabe/simwave/miniwave/kernels/sequential.c.o
+[ 66%] Building C object CMakeFiles/miniwave.dir/miniwave.c.o
+[100%] Linking C executable miniwave
+[100%] Built target miniwave
+vel_model[0:50]:
+1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 1500.000000 
+next_u[0:50]:
+0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 
+prev_u[0:50]:
+0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 
+coefficient:
+-2.000000 1.000000 
+block_size_1: 8.000000
+block_size_2: 8.000000
+block_size_3: 8.000000
+d1: 10.000000
+d2: 10.000000
+d3: 10.000000
+dt: 0.002000
+iterations: 10.000000
+n1: 64.000000
+n2: 64.000000
+n3: 64.000000
+stencil_radius: 1.000000
+
+prev_u[0:50]0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 
+Compilation command: gcc -O3 -fPIC  -shared -DBLOCK1=8 -DBLOCK2=8 -DBLOCK3=8 -DSTENCIL_RADIUS=1 -DDOUBLE -o /tmp/miniwave/c2fc2421699fde8f6459d67901e88ad448d9aacc.so kernels/sequential.c
+----------
+Language:  c
+File:  kernels/sequential.c
+Dtype: <class 'numpy.float64'> (float64)
+Grid size:  (64, 64, 64)
+Grid spacing:  (np.float64(10.0), np.float64(10.0), np.float64(10.0))
+Space order:  2
+-DSTENCIL_RADIUS:  1
+Iterations:  10
+Block sizes:  (8, 8, 8)
+SM:  75
+Fast Math:  False
+----------
+Execution time: 0.030475 seconds

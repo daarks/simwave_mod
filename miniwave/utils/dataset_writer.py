@@ -7,6 +7,7 @@ class DatasetWriter:
     def __init__(self) -> None:
         pass
 
+    @staticmethod
     def write_dataset(data: dict, path: str):
         """Writes HDF5 file from data.
         Non array data written to "scalar_data" dataset as attributes.
@@ -46,10 +47,11 @@ class DatasetWriter:
         :type path: str
         """
 
-        # Create file
+            # Create file
         dir = os.path.dirname(path)
-        if not os.path.exists(dir):
-            os.makedirs(dir)
+        if dir:
+            os.makedirs(dir, exist_ok=True)
+
         file = h5py.File(path, "w")
         # Create datasets
         scalar_data_dataset = file.create_dataset(

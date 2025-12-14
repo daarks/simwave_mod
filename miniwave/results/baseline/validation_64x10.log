@@ -1,0 +1,118 @@
+CMakeLists.txt
+data
+miniwave.c
+selected_kernel.h.in
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- The CUDA compiler identification is NVIDIA 12.0.140
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Using kernel: kernels/cuda_baseline.cu
+-- Found HDF5: hdf5::hdf5-shared (found version "1.14.3") found components: C 
+-- Configuring done (3.9s)
+-- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    KERNEL_HEADER
+
+
+-- Build files have been written to: /home/gabe/simwave/miniwave/c-frontend/build
+[ 25%] Building CUDA object CMakeFiles/miniwave.dir/home/gabe/simwave/miniwave/kernels/cuda_baseline.cu.o
+[ 50%] Building C object CMakeFiles/miniwave.dir/miniwave.c.o
+[ 75%] Linking CUDA device code CMakeFiles/miniwave.dir/cmake_device_link.o
+nvlink warning : Skipping incompatible '/usr/lib/x86_64-linux-gnu/libdl.a' when searching for -ldl
+nvlink warning : Skipping incompatible '/usr/lib/x86_64-linux-gnu/librt.a' when searching for -lrt
+nvlink warning : Skipping incompatible '/usr/lib/x86_64-linux-gnu/libpthread.a' when searching for -lpthread
+[100%] Linking CUDA executable miniwave
+[100%] Built target miniwave
+
+╔════════════════════════════════════════════════════════════╗
+║           MINIWAVE - 3D ACOUSTIC WAVE SIMULATOR            ║
+╚════════════════════════════════════════════════════════════╝
+
+📐 GRID CONFIGURATION:
+   Dimensions: 64 x 64 x 64 = 262144 points
+   Spacing: 10.0 x 10.0 x 10.0 meters
+   Physical size: 640 x 640 x 640 meters
+
+⏱️  TIME CONFIGURATION:
+   Timesteps: 10
+   Time step (dt): 0.002000 seconds
+   Total simulated time: 0.020000 seconds
+
+🔢 NUMERICAL METHOD:
+   Stencil radius: 1 (space order: 2)
+   FD coefficients: [-2.000, 1.000]
+
+🖥️  GPU CONFIGURATION:
+   Block size: 8 x 8 x 8 threads
+
+=== INITIAL WAVEFIELD ===
+Min: 0.000000 | Max: 50.000000 | Sum: 24199.60 | Mean: 0.092314
+Active elements (|u| > 0.01): 512 / 262144 (0.20% of grid)
+
+=== INITIAL STATE - CENTRAL CROSS-SECTION (y=32 plane) ===
+Line from center: [z=32, y=32, x=0:31]
+  0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 
+  0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 
+  0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 
+  0.000   0.000   0.000   0.000  50.000  45.000  40.500  36.450 
+
+╔════════════════════════════════════════════════════════════╗
+║                    RUNNING SIMULATION...                   ║
+╚════════════════════════════════════════════════════════════╝
+
+╔════════════════════════════════════════════════════════════╗
+║                  SIMULATION COMPLETED! ✓                   ║
+╚════════════════════════════════════════════════════════════╝
+
+=== FINAL WAVEFIELD ===
+Min: -31.041117 | Max: 47.645676 | Sum: 24199.60 | Mean: 0.092314
+Active elements (|u| > 0.01): 4128 / 262144 (1.57% of grid)
+
+=== FINAL STATE - CENTRAL CROSS-SECTION (y=32 plane) ===
+Line from center: [z=32, y=32, x=0:31]
+  0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 
+  0.000   0.000   0.000   0.000   0.000   0.000   0.000   0.000 
+  0.000   0.000   0.000   0.000   0.000   0.000   0.009   0.182 
+  2.130  12.721  31.073  17.374  20.866  13.534  36.322  47.646 
+
+🎯 CENTER POINT [32,32,32]:
+   Before: 42.984741 → After: 47.645676 (change: +4.660934)
+
+⏱️  PERFORMANCE:
+   Execution time: 0.109604 seconds
+   Points computed: 2621440
+   Throughput: 23.92 million points/second
+
+💾 Results saved to: c-frontend/data/results.h5
+
+Compilation command: nvcc -O3 -gencode arch=compute_86,code=sm_86 --compiler-options -fPIC,-Wall  -shared -DBLOCK1=8 -DBLOCK2=8 -DBLOCK3=8 -DSTENCIL_RADIUS=1 -DFLOAT -o /tmp/miniwave/824b63b20aa6c72c35c46893c51ce7fedc784dd0.so kernels/cuda_baseline.cu
+----------
+Language:  cuda
+File:  kernels/cuda_baseline.cu
+Dtype: <class 'numpy.float32'> (float32)
+Grid size:  (64, 64, 64)
+Grid spacing:  (np.float32(10.0), np.float32(10.0), np.float32(10.0))
+Space order:  2
+-DSTENCIL_RADIUS:  1
+Iterations:  10
+Block sizes:  (8, 8, 8)
+SM:  86
+Fast Math:  False
+----------
+Execution time: 0.109604 seconds
